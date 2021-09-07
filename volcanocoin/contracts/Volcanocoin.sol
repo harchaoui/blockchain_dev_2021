@@ -6,6 +6,8 @@ contract Volcanocoin {
   uint256  private _totalSupply  = 1000;
   address owner;
 
+  event supplyChange(uint256);
+
   constructor(){
       owner = msg.sender;
   }
@@ -21,6 +23,7 @@ contract Volcanocoin {
   }
   function increaseSupply() public onlyOwner {
       _totalSupply +=1000;
+    emit supplyChange(_totalSupply);
 
   }
 
