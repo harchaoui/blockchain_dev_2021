@@ -17,5 +17,7 @@ contract Volcanocoin {
   }
   function increaseSupply() public onlyOwner {
       _totalSupply +=1000;
+
   }
+
 }
