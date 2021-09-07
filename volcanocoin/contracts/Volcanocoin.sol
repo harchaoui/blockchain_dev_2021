@@ -6,6 +6,10 @@ contract Volcanocoin {
   uint256  private _totalSupply  = 1000;
   address owner;
 
+  constructor(){
+      owner = msg.sender;
+  }
+
   modifier onlyOwner (){
       if (msg.sender == owner){
           _;
