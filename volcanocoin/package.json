@@ -8,5 +8,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bn-chai": "^1.0.1",
+    "bn.js": "^5.2.0"
+  }
 }

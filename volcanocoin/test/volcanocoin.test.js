@@ -1,4 +1,5 @@
 const Vlc = artifacts.require('Volcanocoin');
+let BN = require('bn.js');
 
 contract('vlc', (accounts) => {
     let _vlc = null;
@@ -28,24 +29,26 @@ contract('vlc', (accounts) => {
 
         it('Increase function should be executed by the OWNER only', async()=>{
             const owner = accounts[0]
-            // const hacker = accounts[2]
-            // increase the ts by the hacker
-            // console.log('OWENER try to execute ')
-            const rslt = await _vlc.increaseSupply({from: owner})
-            // console.log(rslt.toString())
-            // assert.equal(rslt.toString(), owner, 'OWNER successfuly executed the increaseTotal ')
-            assert.equal(rslt.toString(), owner, 'OWNER successfuly executed the increaseTotal ')
+            const oldBalance =  web3.utils.BN(await _vlc.getTotalSupply.call({from:owner}));
+            await _vlc.increaseSupply({from:owner})
+            const newBalance =  web3.utils.BN(await _vlc.getTotalSupply.call({from:owner}));
+            console.log(`old balance =${oldBalance} , new balance=${newBalance}`)
+            assert.equal(newBalance.toString(),'2000', 'OWNER successfuly executed the increaseTotal ')
+            // expect(newBalance).to.eq(new BN('1000'))
+            // expect(newBalance.eq(BN('2000'))).to.be.true;
+
+
         });
 
-        it('Increase function should not be executed by a HACKER', async() => {
-            // const owner = accounts[0]
-            const hacker = accounts[2]
-            // increase the ts by the hacker
-            // console.log('HACKER try to execute the contract')
-            const rslt = await _vlc.increaseSupply({from: hacker})
-            assert.equal(rslt.toString(), hacker, 'your trying to access a restricted function')
-        }
-        );
+        // it('Increase function should not be executed by a HACKER', async() => {
+            
+        //     const hacker = accounts[2]
+        //      const oldBalance = await _vlc.getBalance.call(owner)
+        //     await _vlc.increaseSupply(owner)
+        //     const newBalance = await _vlc.getBalance.call(owner)
+        //     assert.equal(newBalance.toString(), oldBalance.toString(), 'OWNER successfuly executed the increaseTotal ')
+        // }
+        // );
 
         // it('should get the balance of 1000 from the owner address', async ()=>{
         //     const owner = accounts[0];
