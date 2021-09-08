@@ -40,15 +40,17 @@ contract('vlc', (accounts) => {
 
         });
 
-        // it('Increase function should not be executed by a HACKER', async() => {
-            
-        //     const hacker = accounts[2]
-        //      const oldBalance = await _vlc.getBalance.call(owner)
-        //     await _vlc.increaseSupply(owner)
-        //     const newBalance = await _vlc.getBalance.call(owner)
-        //     assert.equal(newBalance.toString(), oldBalance.toString(), 'OWNER successfuly executed the increaseTotal ')
-        // }
-        // );
+        it('Increase function should not be executed by a HACKER', async() => { 
+           const hacker = accounts[2]
+            const oldBalance =  web3.utils.BN(await _vlc.getTotalSupply.call({from:hacker}));
+            await _vlc.increaseSupply({from:hacker})
+            const newBalance =  web3.utils.BN(await _vlc.getTotalSupply.call({from:hacker}));
+            console.log(`old balance =${oldBalance} , new balance=${newBalance}`)
+            // equal 2000 due to the fact that the change is already done by the owner
+            assert.equal(newBalance.toString(),'2000', 'HACKER cannot successfuly executed the increaseTotal ')
+            // assert.equal(newBalance.toString(), oldBalance.toString(), 'HACKER successfuly executed the increaseTotal ')
+        }
+        );
 
         // it('should get the balance of 1000 from the owner address', async ()=>{
         //     const owner = accounts[0];
